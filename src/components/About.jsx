@@ -320,12 +320,12 @@ export default function About() {
           <h2 className="section-title">Qui suis-je ?</h2>
           <p className="about__desc">
             Étudiant passionné par l&apos;électronique, les systèmes embarqués et l&apos;audio haute fidélité.
-            J&apos;aime construire des objets qui combinent la précision de la machine et la chaleur du son —
+            J&apos;aime construire des objets qui combinent la précision de la machine et la chaleur du son,
             un pied dans le monde analogique, l&apos;autre dans le numérique.
           </p>
           <p className="about__desc">
             Entre projets hardware, firmware et interfaces web, je cherche toujours à créer
-            quelque chose de concret, de fonctionnel et — autant que possible — de beau.
+            quelque chose de concret, de fonctionnel et, autant que possible, de beau.
           </p>
           <div className="about__stats">
             <div className="about__stat">
@@ -347,9 +347,10 @@ export default function About() {
           <div className={`about__headset-viewer ${playing ? 'about__headset-viewer--playing' : ''}`}>
             <Canvas camera={{ position: [0, 0.4, 5], fov: 42 }} dpr={[1, 2]}>
               <color attach="background" args={['#1E1A14']} />
-              <ambientLight intensity={0.22} color="#FFD090" />
-              <pointLight position={[2.5, 2, 3]} intensity={4} color="#C17A2A" />
-              <pointLight position={[-2, 1.5, 2]} intensity={2} color="#7A4C17" />
+              <ambientLight intensity={0.55} color="#FFD090" />
+              <pointLight position={[2.5, 2, 3]} intensity={7} color="#C17A2A" />
+              <pointLight position={[-2, 1.5, 2]} intensity={4} color="#7A4C17" />
+              <pointLight position={[0, -1, 3]} intensity={3} color="#F5A623" />
               <StageLights playing={playing} />
               <StageBg    playing={playing} />
               <Sparks     playing={playing} />

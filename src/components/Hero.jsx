@@ -153,7 +153,7 @@ export default function Hero() {
 
       <div className="hero__content">
         <div className="hero__badge">
-          Étudiant &amp; Maker — Ouvert aux opportunités
+          Étudiant &amp; Maker · Ouvert aux opportunités
         </div>
         <h1 className="hero__title">
           Bonjour, je suis<br />

@@ -84,7 +84,7 @@ export default function Contact() {
       <footer className="footer">
         <div className="footer__inner">
           <span>Arthouane Gillekens · {new Date().getFullYear()}</span>
-          <span className="footer__sep">—</span>
+          <span className="footer__sep">·</span>
           <span>Construit avec React &amp; Three.js · Hébergé sur Vercel</span>
         </div>
       </footer>

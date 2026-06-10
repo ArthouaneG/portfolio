@@ -115,7 +115,7 @@ export default function Skills() {
       <div className="skills__inner">
         <div className="skills__header">
           <h2 className="section-title">Compétences</h2>
-          <p className="section-sub">De la soudure au code — bout en bout</p>
+          <p className="section-sub">De la soudure au code, bout en bout</p>
         </div>
         <div className="skills__layout">
           <div className="skills__canvas-wrap rivet-panel">

@@ -3,7 +3,7 @@ import './Projects.css'
 const projects = [
   {
     title: 'Enceinte Bluetooth à Microcontrôleur',
-    desc: 'Conception complète d\'une enceinte Bluetooth sur mesure : firmware ESP32, circuit d\'amplification audio et boîtier imprimé en 3D. Streaming audio BLE avec contrôle de volume via interface série.',
+    desc: 'Conception complète d\'une enceinte Bluetooth sur mesure : firmware ESP32, circuit d\'amplification audio. Streaming audio BLE avec depuis un smartphone.',
     tags: ['ESP32', 'Bluetooth / BLE', 'C++', 'Amplification audio', 'CAO 3D'],
     color: '#C17A2A',
     link: '#',
@@ -19,7 +19,7 @@ const projects = [
   },
   {
     title: 'Portfolio steampunk 3D',
-    desc: 'Ce portfolio — construit avec React, Three.js (R3F) et du CSS custom. Scène 3D animée avec rendu cuivre/ambre, waveform audio et anneaux gyroscopiques. Déployé sur Vercel.',
+    desc: 'Ce portfolio, construit avec React, Three.js (R3F) et du CSS custom. Scène 3D animée avec rendu cuivre/ambre, waveform audio et anneaux gyroscopiques. Déployé sur Vercel.',
     tags: ['React', 'Three.js', 'R3F', 'Vite', 'CSS'],
     color: '#F5A623',
     link: '#',
@@ -71,7 +71,7 @@ export default function Projects() {
       <div className="projects__inner">
         <div className="projects__header">
           <h2 className="section-title">Projets</h2>
-          <p className="section-sub">Du firmware au front-end — ce que j&apos;ai construit</p>
+          <p className="section-sub">Du firmware au front-end, ce que j&apos;ai construit</p>
         </div>
         <div className="projects__grid">
           {projects.map(p => <ProjectCard key={p.title} project={p} />)}
