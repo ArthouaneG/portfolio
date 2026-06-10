@@ -13,8 +13,8 @@
 }
 
 .nav--scrolled {
-  background: rgba(5, 5, 8, 0.8);
-  backdrop-filter: blur(20px);
+  background: rgba(6, 5, 3, 0.85);
+  backdrop-filter: blur(24px);
   border-color: var(--border);
 }
 
@@ -25,22 +25,23 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  letter-spacing: -0.02em;
+  gap: 0.6rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
 }
 
 .nav__logo-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-glow);
+  animation: copperPulse 2.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.85); }
+@keyframes copperPulse {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--accent); }
+  50% { opacity: 0.7; transform: scale(0.8); box-shadow: 0 0 4px var(--accent-dim); }
 }
 
 .nav__links {
@@ -53,8 +54,9 @@
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
+  letter-spacing: 0.04em;
   padding: 0.4rem 0.9rem;
   border-radius: 8px;
   cursor: pointer;
@@ -63,25 +65,27 @@
 
 .nav__link:hover,
 .nav__link--active {
-  color: var(--text);
+  color: var(--accent-2);
   background: var(--glass);
 }
 
 .nav__cta {
-  background: var(--accent);
-  color: white;
-  border: none;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
   padding: 0.5rem 1.25rem;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
 }
 
 .nav__cta:hover {
-  opacity: 0.9;
+  background: var(--accent);
+  color: #060503;
   transform: translateY(-1px);
   box-shadow: 0 8px 24px var(--accent-glow);
 }

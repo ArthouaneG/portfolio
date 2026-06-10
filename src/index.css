@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg: #050508;
-  --bg-2: #0d0d18;
-  --accent: #7c3aed;
-  --accent-2: #06b6d4;
-  --accent-glow: rgba(124, 58, 237, 0.4);
-  --text: #e2e8f0;
-  --text-muted: #64748b;
-  --border: rgba(255, 255, 255, 0.07);
-  --glass: rgba(255, 255, 255, 0.03);
-  --radius: 16px;
+  --bg:        #060503;
+  --bg-2:      #0C0A07;
+  --bg-3:      #131008;
+  --accent:    #C17A2A;       /* cuivre */
+  --accent-2:  #F5A623;       /* ambre */
+  --accent-dim: #7A4C17;      /* cuivre sombre */
+  --accent-glow: rgba(193, 122, 42, 0.35);
+  --text:      #EDE0CC;       /* crème chaud */
+  --text-muted: #7A6850;      /* brun chaud */
+  --border:    rgba(193, 122, 42, 0.14);
+  --border-2:  rgba(193, 122, 42, 0.06);
+  --glass:     rgba(193, 122, 42, 0.04);
+  --radius:    14px;
 }
 
 * {
@@ -19,9 +22,7 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
@@ -31,14 +32,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection {
-  background: var(--accent);
-  color: white;
-}
+::selection { background: var(--accent); color: #fff; }
 
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -47,7 +45,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #fff 30%, var(--text-muted));
+  background: linear-gradient(135deg, var(--text) 30%, var(--text-muted));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -59,3 +57,19 @@ a { color: inherit; text-decoration: none; }
   font-size: 1rem;
   margin-bottom: 3rem;
 }
+
+/* Decorative rivet corners for steampunk panels */
+.rivet-panel {
+  position: relative;
+}
+.rivet-panel::before,
+.rivet-panel::after {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  box-shadow: 0 0 4px var(--accent-glow);
+}
+.rivet-panel::before { top: 10px; left: 10px; }
+.rivet-panel::after  { bottom: 10px; right: 10px; }

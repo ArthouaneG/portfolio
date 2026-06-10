@@ -22,7 +22,7 @@ export default function Nav() {
     <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <span className="nav__logo-dot" />
-        Delphine
+        A.Gillekens
       </div>
       <ul className="nav__links">
         {links.map(l => (

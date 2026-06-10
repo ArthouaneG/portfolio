@@ -7,6 +7,16 @@
   overflow: hidden;
 }
 
+/* Warm vignette overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 70% 50%, transparent 40%, rgba(6,5,3,0.7) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero__canvas {
   position: absolute;
   inset: 0;
@@ -22,22 +32,23 @@
   position: relative;
   z-index: 2;
   padding: 0 4rem;
-  max-width: 680px;
+  max-width: 640px;
 }
 
 .hero__badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(124, 58, 237, 0.12);
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  color: #a78bfa;
-  font-size: 0.8rem;
+  background: rgba(193, 122, 42, 0.08);
+  border: 1px solid rgba(193, 122, 42, 0.28);
+  color: var(--accent-2);
+  font-size: 0.78rem;
   font-weight: 500;
   padding: 0.35rem 0.9rem;
-  border-radius: 100px;
+  border-radius: 4px;
   margin-bottom: 1.5rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .hero__badge::before {
@@ -47,45 +58,48 @@
   border-radius: 50%;
   background: #4ade80;
   box-shadow: 0 0 8px #4ade80;
-  animation: pulse 2s infinite;
+  animation: greenPulse 2.5s infinite;
+}
+
+@keyframes greenPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .hero__title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 1.25rem;
 }
 
 .hero__name {
-  background: linear-gradient(135deg, #a78bfa 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent) 60%, #8B4A10 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: block;
 }
 
 .hero__desc {
   color: var(--text-muted);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.75;
   margin-bottom: 2.5rem;
 }
 
-.hero__actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+.hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .hero__btn {
   padding: 0.75rem 1.75rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
@@ -93,30 +107,30 @@
 
 .hero__btn--primary {
   background: var(--accent);
-  color: white;
-  box-shadow: 0 0 0 0 var(--accent-glow);
+  color: #060503;
 }
 
 .hero__btn--primary:hover {
+  background: var(--accent-2);
   transform: translateY(-2px);
   box-shadow: 0 12px 32px var(--accent-glow);
 }
 
 .hero__btn--ghost {
-  background: var(--glass);
-  color: var(--text);
+  background: transparent;
+  color: var(--text-muted);
   border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
 }
 
 .hero__btn--ghost:hover {
-  background: rgba(255,255,255,0.07);
+  color: var(--text);
+  border-color: var(--accent-dim);
   transform: translateY(-2px);
 }
 
 .hero__scroll {
   position: absolute;
-  bottom: 2rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -124,25 +138,25 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--text-muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   z-index: 2;
 }
 
 .hero__scroll-line {
   width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, var(--text-muted));
-  animation: scrollLine 2s ease-in-out infinite;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--accent-dim));
+  animation: scrollFade 2.2s ease-in-out infinite;
 }
 
-@keyframes scrollLine {
+@keyframes scrollFade {
   0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
-  50% { transform: scaleY(1); opacity: 1; }
+  50%       { transform: scaleY(1);   opacity: 1; }
 }
 
 @media (max-width: 768px) {
   .hero__content { padding: 0 1.5rem; }
-  .hero__title { font-size: 2.5rem; }
+  .hero::after { display: none; }
 }
