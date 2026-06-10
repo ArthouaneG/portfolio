@@ -5,13 +5,12 @@ import './Skills.css'
 
 const skills = [
   { category: 'Systèmes embarqués', items: [
-    { name: 'C / C++', level: 85 },
+    { name: 'C / C++', level: 60 },
     { name: 'ESP32 / Arduino', level: 90 },
     { name: 'Protocoles (I²C, SPI, UART)', level: 78 },
     { name: 'Bluetooth / BLE', level: 80 },
   ]},
   { category: 'Électronique', items: [
-    { name: 'Conception PCB (KiCad)', level: 72 },
     { name: 'Électronique analogique', level: 68 },
     { name: 'Amplification audio', level: 75 },
     { name: 'Soudure / Prototypage', level: 88 },

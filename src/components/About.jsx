@@ -50,7 +50,7 @@ export default function About() {
             </svg>
           </div>
           <div className="about__tags">
-            {['ESP32 / Arduino', 'C / C++', 'Bluetooth Audio', 'PCB Design', 'React', 'Électronique analogique'].map(t => (
+            {['ESP32 / Arduino', 'C / C++', 'Bluetooth Audio', 'React', 'Électronique analogique'].map(t => (
               <span key={t} className="about__tag">{t}</span>
             ))}
           </div>

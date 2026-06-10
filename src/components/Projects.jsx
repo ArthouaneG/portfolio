@@ -3,8 +3,8 @@ import './Projects.css'
 const projects = [
   {
     title: 'Enceinte Bluetooth à Microcontrôleur',
-    desc: 'Conception complète d\'une enceinte Bluetooth sur mesure : firmware ESP32, circuit d\'amplification audio, PCB maison et boîtier imprimé en 3D. Streaming audio BLE avec contrôle de volume via interface série.',
-    tags: ['ESP32', 'Bluetooth / BLE', 'C++', 'PCB KiCad', 'Amplification audio', 'CAO 3D'],
+    desc: 'Conception complète d\'une enceinte Bluetooth sur mesure : firmware ESP32, circuit d\'amplification audio et boîtier imprimé en 3D. Streaming audio BLE avec contrôle de volume via interface série.',
+    tags: ['ESP32', 'Bluetooth / BLE', 'C++', 'Amplification audio', 'CAO 3D'],
     color: '#C17A2A',
     link: '#',
     github: 'https://github.com/ArthouaneG/soundboard_esp',
@@ -23,40 +23,11 @@ const projects = [
     tags: ['React', 'Three.js', 'R3F', 'Vite', 'CSS'],
     color: '#F5A623',
     link: '#',
-    github: 'https://github.com/ArthouaneG',
+    github: 'https://github.com/ArthouaneG/portfolio',
     featured: true,
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Station météo connectée',
-    desc: 'Capteurs DHT22 + BMP280 sur ESP32 avec envoi MQTT vers un broker local. Dashboard web en temps réel pour visualiser température, humidité et pression.',
-    tags: ['ESP32', 'MQTT', 'Python', 'SQLite', 'React'],
-    color: '#7A9C3A',
-    link: '#',
-    github: '#',
-    featured: false,
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2v6M12 18v4M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M16 12h6"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Contrôleur MIDI DIY',
-    desc: 'Contrôleur MIDI USB basé sur Arduino Micro avec 16 boutons, 8 potentiomètres et affichage OLED. Boîtier en bois vieilli pour un rendu steampunk.',
-    tags: ['Arduino', 'USB MIDI', 'C++', 'OLED', 'Bois / Fabrication'],
-    color: '#8B4513',
-    link: '#',
-    github: '#',
-    featured: false,
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="2" y="8" width="20" height="8" rx="2"/>
-        <path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M10 12h4"/>
       </svg>
     ),
   },
