@@ -4,145 +4,184 @@ import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import './About.css'
 
-/* ─── Casque 3D ─────────────────────────────────────────────── */
+/* ─── Casque 3D (style Meze 109 Pro) ────────────────────────── */
 function Headset({ playing }) {
-  const ringsL = useRef([])
-  const ringsR = useRef([])
+  const spokeRefs = useRef([])   // L spokes + R spokes
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
-    const ei = playing ? 0.14 + Math.sin(t * 3.5) * 0.07 : 0.04
-    ;[...ringsL.current, ...ringsR.current].forEach(r => {
+    const ei = playing ? 0.18 + Math.sin(t * 3.2) * 0.08 : 0.0
+    spokeRefs.current.forEach(r => {
       if (r) r.material.emissiveIntensity = ei
     })
   })
 
+  /* Helper: copper dome accent au centre de la face extérieure */
+  const CopperDome = ({ x, y, z }) => (
+    <mesh position={[x, y, z]}>
+      <sphereGeometry args={[0.058, 16, 12]} />
+      <meshStandardMaterial color="#C07840" metalness={0.93} roughness={0.17} />
+    </mesh>
+  )
+
+  /* Helper: grille rayons + anneau noyer d'une coque */
+  const CupOuterFace = ({ xFace, yc, sign, spokeOffset }) => (
+    <>
+      {/* Anneau noyer proéminent (cadre extérieur) */}
+      <mesh position={[xFace, yc, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.36, 0.08, 10, 48]} />
+        <meshStandardMaterial color="#2A1306" metalness={0} roughness={0.68} />
+      </mesh>
+      {/* Fond grille sombre */}
+      <mesh position={[xFace - sign * 0.005, yc, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.28, 0.28, 0.009, 48]} />
+        <meshStandardMaterial color="#141210" metalness={0.25} roughness={0.55} />
+      </mesh>
+      {/* Rayons radiaux */}
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i / 12) * Math.PI * 2
+        const r = 0.14
+        return (
+          <mesh
+            key={i}
+            ref={el => { spokeRefs.current[spokeOffset + i] = el }}
+            position={[xFace - sign * 0.006, yc + Math.cos(a) * r, Math.sin(a) * r]}
+            rotation={[a, 0, 0]}
+          >
+            <boxGeometry args={[0.007, 0.28, 0.009]} />
+            <meshStandardMaterial
+              color="#C07840"
+              metalness={0.85}
+              roughness={0.3}
+              emissive="#C07840"
+              emissiveIntensity={0}
+            />
+          </mesh>
+        )
+      })}
+      {/* Dôme cuivre central */}
+      <CopperDome x={xFace - sign * 0.014} y={yc} z={0} />
+    </>
+  )
+
   return (
     <group>
-      {/* BANDEAU — double arche acier fine */}
-      <mesh>
-        <torusGeometry args={[1.12, 0.018, 8, 64, Math.PI]} />
-        <meshStandardMaterial color="#888888" metalness={0.96} roughness={0.1} />
+      {/* ── SANGLE CUIR PLATE ── */}
+      {/* Sangle principale (scale Z pour l'aplatir en courroie) */}
+      <mesh scale={[1, 1, 0.14]}>
+        <torusGeometry args={[1.1, 0.072, 6, 64, Math.PI]} />
+        <meshStandardMaterial color="#1A1208" metalness={0} roughness={0.88} />
       </mesh>
-      <mesh position={[0, 0, 0.08]}>
-        <torusGeometry args={[1.08, 0.018, 8, 64, Math.PI]} />
-        <meshStandardMaterial color="#888888" metalness={0.96} roughness={0.1} />
+      {/* Liseré bord de sangle */}
+      <mesh scale={[1, 1, 0.18]}>
+        <torusGeometry args={[1.172, 0.008, 4, 64, Math.PI]} />
+        <meshStandardMaterial color="#2E1E0E" metalness={0} roughness={0.92} />
       </mesh>
-
-      {/* COUSSIN DE TÊTE — cuir noir, centre de l'arche */}
-      <mesh position={[0, 1.06, 0.04]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.052, 0.056, 0.46, 12]} />
-        <meshStandardMaterial color="#0C0907" metalness={0} roughness={0.92} />
-      </mesh>
-
-      {/* PIVOT GAUCHE — cuivre */}
-      <mesh position={[-1.1, 0.08, 0.04]}>
-        <boxGeometry args={[0.058, 0.18, 0.09]} />
-        <meshStandardMaterial color="#B8752A" metalness={0.88} roughness={0.22} />
-      </mesh>
-      <mesh position={[-1.12, -0.01, 0.09]}>
-        <sphereGeometry args={[0.038, 10, 10]} />
-        <meshStandardMaterial color="#F5A623" metalness={0.95} roughness={0.12} />
+      <mesh scale={[1, 1, 0.18]}>
+        <torusGeometry args={[1.028, 0.008, 4, 64, Math.PI]} />
+        <meshStandardMaterial color="#2E1E0E" metalness={0} roughness={0.92} />
       </mesh>
 
-      {/* BRAS GAUCHE — métal fin */}
-      <mesh position={[-1.1, -0.38, 0.04]} rotation={[0, 0, 0.04]}>
-        <boxGeometry args={[0.038, 0.68, 0.05]} />
-        <meshStandardMaterial color="#888888" metalness={0.95} roughness={0.1} />
+      {/* Coussin de tête épais — cuir noir */}
+      <mesh position={[0, 1.04, 0.012]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.064, 0.068, 0.52, 12]} />
+        <meshStandardMaterial color="#0E0C0A" metalness={0} roughness={0.9} />
       </mesh>
 
-      {/* COQUE GAUCHE */}
-      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.46, 0.44, 0.3, 48]} />
-        <meshStandardMaterial color="#1A1410" metalness={0.15} roughness={0.65} />
+      {/* ── CÔTÉ GAUCHE ── */}
+
+      {/* Étrier cuivre gauche */}
+      <mesh position={[-1.06, 0.0, 0.032]}>
+        <boxGeometry args={[0.048, 0.24, 0.075]} />
+        <meshStandardMaterial color="#C07840" metalness={0.88} roughness={0.22} />
       </mesh>
-      {/* Dos en noyer */}
-      <mesh position={[-0.986, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.43, 0.43, 0.014, 48]} />
-        <meshStandardMaterial color="#2D1508" metalness={0} roughness={0.7} />
+      <mesh position={[-1.065, -0.16, 0.025]} rotation={[0.12, 0, 0]}>
+        <boxGeometry args={[0.042, 0.13, 0.06]} />
+        <meshStandardMaterial color="#A86830" metalness={0.88} roughness={0.26} />
       </mesh>
-      {/* Bague bois */}
-      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[0.44, 0.026, 6, 48]} />
-        <meshStandardMaterial color="#3A1A07" metalness={0.02} roughness={0.75} />
+      <mesh position={[-1.07, -0.18, 0.042]}>
+        <sphereGeometry args={[0.028, 10, 10]} />
+        <meshStandardMaterial color="#E0A050" metalness={0.95} roughness={0.12} />
       </mesh>
-      {/* Liseré cuivre */}
-      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[0.445, 0.011, 6, 48]} />
-        <meshStandardMaterial color="#C17A2A" metalness={0.92} roughness={0.18} />
+
+      {/* Bras cuir gauche plat + rivets */}
+      <mesh position={[-1.085, -0.38, 0.028]} rotation={[0, 0, 0.08]}>
+        <boxGeometry args={[0.022, 0.64, 0.068]} />
+        <meshStandardMaterial color="#1A1208" metalness={0} roughness={0.88} />
       </mesh>
-      {/* Coussin velours épais */}
-      <mesh position={[-1.258, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
-        <torusGeometry args={[0.3, 0.128, 12, 48]} />
-        <meshStandardMaterial color="#0C0A09" metalness={0} roughness={0.98} />
-      </mesh>
-      {/* Face driver */}
-      <mesh position={[-1.26, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.18, 0.18, 0.012, 32]} />
-        <meshStandardMaterial color="#121010" metalness={0.2} roughness={0.8} />
-      </mesh>
-      {/* Anneaux concentriques cuivre (grille) */}
-      {[0.065, 0.12, 0.17].map((r, i) => (
-        <mesh key={i} ref={el => { ringsL.current[i] = el }}
-          position={[-1.268, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <torusGeometry args={[r, 0.0065, 4, 32]} />
-          <meshStandardMaterial color="#C17A2A" metalness={0.9} roughness={0.2} emissive="#C17A2A" emissiveIntensity={0.04} />
+      {[-0.25, -0.1, 0.06, 0.2].map((dy, i) => (
+        <mesh key={i} position={[-1.085, -0.38 + dy, 0.065]} rotation={[0, Math.PI / 2, 0]}>
+          <cylinderGeometry args={[0.011, 0.011, 0.005, 8]} />
+          <meshStandardMaterial color="#C07840" metalness={0.9} roughness={0.2} />
         </mesh>
       ))}
 
-      {/* PIVOT DROIT */}
-      <mesh position={[1.1, 0.08, 0.04]}>
-        <boxGeometry args={[0.058, 0.18, 0.09]} />
-        <meshStandardMaterial color="#B8752A" metalness={0.88} roughness={0.22} />
+      {/* Coque gauche — boîtier */}
+      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.46, 0.44, 0.32, 48]} />
+        <meshStandardMaterial color="#1A1410" metalness={0.12} roughness={0.68} />
       </mesh>
-      <mesh position={[1.12, -0.01, 0.09]}>
-        <sphereGeometry args={[0.038, 10, 10]} />
-        <meshStandardMaterial color="#F5A623" metalness={0.95} roughness={0.12} />
-      </mesh>
-
-      {/* BRAS DROIT */}
-      <mesh position={[1.1, -0.38, 0.04]} rotation={[0, 0, -0.04]}>
-        <boxGeometry args={[0.038, 0.68, 0.05]} />
-        <meshStandardMaterial color="#888888" metalness={0.95} roughness={0.1} />
+      {/* Bague cuivre sur le pourtour */}
+      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.445, 0.012, 6, 48]} />
+        <meshStandardMaterial color="#C07840" metalness={0.92} roughness={0.18} />
       </mesh>
 
-      {/* COQUE DROITE */}
-      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.46, 0.44, 0.3, 48]} />
-        <meshStandardMaterial color="#1A1410" metalness={0.15} roughness={0.65} />
-      </mesh>
-      <mesh position={[0.986, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.43, 0.43, 0.014, 48]} />
-        <meshStandardMaterial color="#2D1508" metalness={0} roughness={0.7} />
-      </mesh>
-      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[0.44, 0.026, 6, 48]} />
-        <meshStandardMaterial color="#3A1A07" metalness={0.02} roughness={0.75} />
-      </mesh>
-      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[0.445, 0.011, 6, 48]} />
-        <meshStandardMaterial color="#C17A2A" metalness={0.92} roughness={0.18} />
-      </mesh>
-      <mesh position={[1.258, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
+      {/* Face EXTÉRIEURE gauche (noyer + grille rayons) */}
+      <CupOuterFace xFace={-0.944} yc={-0.72} sign={-1} spokeOffset={0} />
+
+      {/* Coussin velours épais (face intérieure) */}
+      <mesh position={[-1.262, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.3, 0.128, 12, 48]} />
         <meshStandardMaterial color="#0C0A09" metalness={0} roughness={0.98} />
       </mesh>
-      <mesh position={[1.26, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.18, 0.18, 0.012, 32]} />
-        <meshStandardMaterial color="#121010" metalness={0.2} roughness={0.8} />
+
+      {/* ── CÔTÉ DROIT (symétrique) ── */}
+
+      <mesh position={[1.06, 0.0, 0.032]}>
+        <boxGeometry args={[0.048, 0.24, 0.075]} />
+        <meshStandardMaterial color="#C07840" metalness={0.88} roughness={0.22} />
       </mesh>
-      {[0.065, 0.12, 0.17].map((r, i) => (
-        <mesh key={i} ref={el => { ringsR.current[i] = el }}
-          position={[1.268, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <torusGeometry args={[r, 0.0065, 4, 32]} />
-          <meshStandardMaterial color="#C17A2A" metalness={0.9} roughness={0.2} emissive="#C17A2A" emissiveIntensity={0.04} />
+      <mesh position={[1.065, -0.16, 0.025]} rotation={[-0.12, 0, 0]}>
+        <boxGeometry args={[0.042, 0.13, 0.06]} />
+        <meshStandardMaterial color="#A86830" metalness={0.88} roughness={0.26} />
+      </mesh>
+      <mesh position={[1.07, -0.18, 0.042]}>
+        <sphereGeometry args={[0.028, 10, 10]} />
+        <meshStandardMaterial color="#E0A050" metalness={0.95} roughness={0.12} />
+      </mesh>
+
+      <mesh position={[1.085, -0.38, 0.028]} rotation={[0, 0, -0.08]}>
+        <boxGeometry args={[0.022, 0.64, 0.068]} />
+        <meshStandardMaterial color="#1A1208" metalness={0} roughness={0.88} />
+      </mesh>
+      {[-0.25, -0.1, 0.06, 0.2].map((dy, i) => (
+        <mesh key={i} position={[1.085, -0.38 + dy, 0.065]} rotation={[0, Math.PI / 2, 0]}>
+          <cylinderGeometry args={[0.011, 0.011, 0.005, 8]} />
+          <meshStandardMaterial color="#C07840" metalness={0.9} roughness={0.2} />
         </mesh>
       ))}
+
+      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.46, 0.44, 0.32, 48]} />
+        <meshStandardMaterial color="#1A1410" metalness={0.12} roughness={0.68} />
+      </mesh>
+      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.445, 0.012, 6, 48]} />
+        <meshStandardMaterial color="#C07840" metalness={0.92} roughness={0.18} />
+      </mesh>
+
+      <CupOuterFace xFace={0.944} yc={-0.72} sign={1} spokeOffset={12} />
+
+      <mesh position={[1.262, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
+        <torusGeometry args={[0.3, 0.128, 12, 48]} />
+        <meshStandardMaterial color="#0C0A09" metalness={0} roughness={0.98} />
+      </mesh>
     </group>
   )
 }
 
-/* ─── Projecteurs de scène ───────────────────────────────────── */
+/* ─── Projecteurs balayants ─────────────────────────────────── */
 function StageLights({ playing }) {
   const l1 = useRef()
   const l2 = useRef()
@@ -172,21 +211,25 @@ function StageLights({ playing }) {
   )
 }
 
-/* ─── Fond qui s'illumine ───────────────────────────────────── */
+/* ─── Fond : clair au repos, s'assombrit + brille à l'écoute ── */
 function StageBg({ playing }) {
   const ref = useRef()
+  const playingColor = useMemo(() => new THREE.Color('#060503'), [])
+  const idleColor    = useMemo(() => new THREE.Color('#1E1A14'), [])
 
   useFrame((state) => {
     if (!ref.current) return
+    const t = state.clock.elapsedTime
+    ref.current.material.color.lerp(playing ? playingColor : idleColor, 0.04)
     ref.current.material.emissiveIntensity = playing
-      ? 0.048 + Math.sin(state.clock.elapsedTime * 1.3) * 0.022
-      : 0
+      ? 0.05 + Math.sin(t * 1.3) * 0.024
+      : Math.max(0, ref.current.material.emissiveIntensity - 0.008)
   })
 
   return (
     <mesh ref={ref}>
       <sphereGeometry args={[9, 16, 16]} />
-      <meshStandardMaterial color="#060503" emissive="#9B4A0A" emissiveIntensity={0} side={THREE.BackSide} />
+      <meshStandardMaterial color="#1E1A14" emissive="#9B4A0A" emissiveIntensity={0} side={THREE.BackSide} />
     </mesh>
   )
 }
@@ -232,20 +275,18 @@ function Sparks({ playing }) {
 /* ─── Section About ─────────────────────────────────────────── */
 export default function About() {
   const [playing, setPlaying] = useState(false)
-  const playerRef = useRef(null)
+  const playerRef     = useRef(null)
   const ytContainerRef = useRef(null)
 
   useEffect(() => {
     function initPlayer() {
       if (!ytContainerRef.current || !window.YT?.Player) return
       playerRef.current = new window.YT.Player(ytContainerRef.current, {
-        height: '0',
-        width: '0',
+        height: '0', width: '0',
         videoId: 'Tx9zMFodNtA',
         playerVars: { autoplay: 0, controls: 0, modestbranding: 1, playsinline: 1, loop: 1, playlist: 'Tx9zMFodNtA' },
       })
     }
-
     if (window.YT?.Player) {
       initPlayer()
     } else {
@@ -255,12 +296,8 @@ export default function About() {
         document.head.appendChild(tag)
       }
       const prev = window.onYouTubeIframeAPIReady
-      window.onYouTubeIframeAPIReady = () => {
-        if (prev) prev()
-        initPlayer()
-      }
+      window.onYouTubeIframeAPIReady = () => { if (prev) prev(); initPlayer() }
     }
-
     return () => {
       try { playerRef.current?.stopVideo(); playerRef.current?.destroy() } catch (_) {}
       playerRef.current = null
@@ -277,6 +314,7 @@ export default function About() {
   return (
     <section className="about" id="about">
       <div className="about__inner">
+
         <div className="about__text">
           <p className="about__label">À propos</p>
           <h2 className="section-title">Qui suis-je ?</h2>
@@ -307,15 +345,15 @@ export default function About() {
 
         <div className="about__card rivet-panel">
           <div className={`about__headset-viewer ${playing ? 'about__headset-viewer--playing' : ''}`}>
-            <Canvas camera={{ position: [0, 0.5, 4.8], fov: 44 }} dpr={[1, 2]}>
-              <color attach="background" args={['#060503']} />
-              <ambientLight intensity={0.18} color="#FFC060" />
-              <pointLight position={[2.5, 2, 3]} intensity={3.5} color="#C17A2A" />
-              <pointLight position={[-2, 1.5, 2]} intensity={1.8} color="#7A4C17" />
+            <Canvas camera={{ position: [0, 0.4, 5], fov: 42 }} dpr={[1, 2]}>
+              <color attach="background" args={['#1E1A14']} />
+              <ambientLight intensity={0.22} color="#FFD090" />
+              <pointLight position={[2.5, 2, 3]} intensity={4} color="#C17A2A" />
+              <pointLight position={[-2, 1.5, 2]} intensity={2} color="#7A4C17" />
               <StageLights playing={playing} />
-              <StageBg playing={playing} />
-              <Sparks playing={playing} />
-              <Headset playing={playing} />
+              <StageBg    playing={playing} />
+              <Sparks     playing={playing} />
+              <Headset    playing={playing} />
               <OrbitControls
                 enablePan={false}
                 autoRotate
@@ -358,6 +396,7 @@ export default function About() {
             </div>
           </div>
         </div>
+
       </div>
 
       {/* Lecteur YouTube caché */}
