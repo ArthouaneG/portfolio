@@ -28,7 +28,7 @@ function Headset({ playing }) {
   const CupOuterFace = ({ xFace, yc, sign, spokeOffset }) => (
     <>
       {/* Anneau noyer proéminent (cadre extérieur) */}
-      <mesh position={[xFace, yc, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[xFace, yc, 0]} rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.36, 0.08, 10, 48]} />
         <meshStandardMaterial color="#2A1306" metalness={0} roughness={0.68} />
       </mesh>
@@ -66,21 +66,21 @@ function Headset({ playing }) {
 
   return (
     <group>
-      {/* ── SANGLE CUIR PLATE ── */}
-      {/* Sangle principale (scale Z pour l'aplatir en courroie) */}
-      <mesh scale={[1, 1, 0.14]}>
-        <torusGeometry args={[1.1, 0.072, 6, 64, Math.PI]} />
-        <meshStandardMaterial color="#1A1208" metalness={0} roughness={0.88} />
-      </mesh>
-      {/* Liseré bord de sangle */}
-      <mesh scale={[1, 1, 0.18]}>
-        <torusGeometry args={[1.172, 0.008, 4, 64, Math.PI]} />
-        <meshStandardMaterial color="#2E1E0E" metalness={0} roughness={0.92} />
-      </mesh>
-      <mesh scale={[1, 1, 0.18]}>
-        <torusGeometry args={[1.028, 0.008, 4, 64, Math.PI]} />
-        <meshStandardMaterial color="#2E1E0E" metalness={0} roughness={0.92} />
-      </mesh>
+      {/* ── SANGLE CUIR PLATE — 24 segments de box le long de l'arche ── */}
+      {/* Local X = épaisseur cuir (radial), Local Y = longueur (tangent), Local Z = largeur courroie */}
+      {Array.from({ length: 24 }, (_, i) => {
+        const t = (i + 0.5) / 24 * Math.PI
+        const segLen = (1.1 * Math.PI / 24) * 1.08
+        return (
+          <mesh key={i}
+            position={[1.1 * Math.cos(t), 1.1 * Math.sin(t), 0]}
+            rotation={[0, 0, t]}
+          >
+            <boxGeometry args={[0.016, segLen, 0.065]} />
+            <meshStandardMaterial color="#1A1208" metalness={0} roughness={0.88} />
+          </mesh>
+        )
+      })}
 
       {/* Coussin de tête épais — cuir noir */}
       <mesh position={[0, 1.04, 0.012]} rotation={[0, 0, Math.PI / 2]}>
@@ -122,7 +122,7 @@ function Headset({ playing }) {
         <meshStandardMaterial color="#1A1410" metalness={0.12} roughness={0.68} />
       </mesh>
       {/* Bague cuivre sur le pourtour */}
-      <mesh position={[-1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[-1.1, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.445, 0.012, 6, 48]} />
         <meshStandardMaterial color="#C07840" metalness={0.92} roughness={0.18} />
       </mesh>
@@ -166,7 +166,7 @@ function Headset({ playing }) {
         <cylinderGeometry args={[0.46, 0.44, 0.32, 48]} />
         <meshStandardMaterial color="#1A1410" metalness={0.12} roughness={0.68} />
       </mesh>
-      <mesh position={[1.1, -0.72, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[1.1, -0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
         <torusGeometry args={[0.445, 0.012, 6, 48]} />
         <meshStandardMaterial color="#C07840" metalness={0.92} roughness={0.18} />
       </mesh>
